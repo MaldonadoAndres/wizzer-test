@@ -33,9 +33,16 @@ abstract class GiphyApi {
   }
 
   @GET('gifs/trending')
-  Future<ListDataWrapper<GifModel>> getTrendingGifs({
+  Future<ListDataWrapper<GifModel>> getTrendingGifs(
+    @Query('offset') int offset, {
     @Query('api_key') String apiKey = kApiKey,
     @Query('limit') int limit = 10,
-    @Query('offset') int offset = 0,
+  });
+  @GET('gifs/search')
+  Future<ListDataWrapper<GifModel>> searchByName(
+    @Query('q') String name,
+    @Query('offset') int offset, {
+    @Query('api_key') String apiKey = kApiKey,
+    @Query('limit') int limit = 10,
   });
 }

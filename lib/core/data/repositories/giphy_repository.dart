@@ -8,9 +8,19 @@ class GiphyRepository implements IGiphyRepository {
 
   GiphyRepository({required GiphyApi api}) : _api = api;
   @override
-  Future<List<GifEntity>> getTrendingGifs(int page) async {
+  Future<List<GifEntity>> getTrendingGifs(int offset) async {
     try {
-      final response = await _api.getTrendingGifs(offset: page);
+      final response = await _api.getTrendingGifs(offset);
+      return response.data;
+    } on Exception catch (e) {
+      throw e.handleException();
+    }
+  }
+
+  @override
+  Future<List<GifEntity>> searchByName(int offset, String name) async {
+    try {
+      final response = await _api.searchByName(name, offset);
       return response.data;
     } on Exception catch (e) {
       throw e.handleException();

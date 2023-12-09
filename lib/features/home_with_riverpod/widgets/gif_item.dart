@@ -4,25 +4,32 @@ import 'package:wizzer_test/core/domain/entities/gif_entity.dart';
 import 'package:wizzer_test/features/home_with_riverpod/widgets/like_button.dart';
 
 class GifItem extends StatelessWidget {
-  const GifItem({super.key, required this.gif});
+  const GifItem({super.key, required this.gif, required this.index, required this.onLikeButtonTap});
   final GifEntity gif;
+  final int index;
+  final Function(bool) onLikeButtonTap;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: CachedNetworkImage(
-            imageUrl: gif.original.url,
-            height: gif.original.height,
-            fit: BoxFit.fitHeight,
-          ),
+        CachedNetworkImage(
+          imageUrl: gif.original.url,
+          height: gif.original.height,
+          fit: BoxFit.fitHeight,
         ),
-        const Positioned(
+        Positioned(
           bottom: 10,
           right: 10,
-          child: LikeButton(),
+          child: LikeButton(
+            onTap: onLikeButtonTap,
+            initialLikeState: gif.original.isLiked,
+          ),
+        ),
+        Positioned(
+          bottom: 10,
+          left: 10,
+          child: Text(index.toString()),
         )
       ],
     );

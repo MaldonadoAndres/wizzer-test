@@ -7,16 +7,24 @@ part 'get_trending_gifs_provider.g.dart';
 
 @riverpod
 class GetTrendingGifs extends _$GetTrendingGifs {
-  int _currentPage = 0;
+  int _offset = 0;
+  final GetTrendingGifsUseCase _getTrendingGifsUseCase = Get.find<GetTrendingGifsUseCase>();
+
   @override
-  FutureOr<List<GifEntity>> build() {
-    return [];
+  FutureOr<List<GifEntity>> build() async {
+    state = const AsyncValue.loading();
+    final response = await _getTrendingGifsUseCase(_offset);
+    _offset += 10;
+    return response;
   }
 
   Future<void> getMoreGifs() async {
-    state = const AsyncLoading();
-    final getTrendingGifs = Get.find<GetTrendingGifsUseCase>();
-    state = await AsyncValue.guard(() => getTrendingGifs(_currentPage));
-    _currentPage++;
+    final newGifs = await _getTrendingGifsUseCase(_offset);
+    update((oldGifs) => [...oldGifs, ...newGifs]);
+    _offset += 10;
+  }
+
+  Future<void> likeGif(bool isLiked, int index) async {
+    state.value?[index].original.isLiked = isLiked;
   }
 }

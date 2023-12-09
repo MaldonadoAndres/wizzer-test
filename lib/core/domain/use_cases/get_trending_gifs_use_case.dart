@@ -5,7 +5,7 @@ class GetTrendingGifsUseCase {
   final IGiphyRepository _repository;
 
   GetTrendingGifsUseCase({required IGiphyRepository repository}) : _repository = repository;
-  Future<List<GifEntity>> call(int page) {
-    return _repository.getTrendingGifs(page);
+  Future<List<GifEntity>> call(int offset) {
+    return _repository.getTrendingGifs(offset);
   }
 }

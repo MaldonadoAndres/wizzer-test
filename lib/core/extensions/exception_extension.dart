@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:wizzer_test/core/utils/custom_exceptions.dart';
 
 extension ExceptionExtension on Exception {
   Exception handleException() {
@@ -6,13 +7,13 @@ extension ExceptionExtension on Exception {
       final exception = this as DioException;
       switch (exception.type) {
         case DioExceptionType.connectionError:
-          return Exception('No Internet Connection');
+          return CustomException('No Internet Connection');
         case DioExceptionType.connectionTimeout:
-          return Exception('Server take too much time.');
+          return CustomException('Server take too much time.');
         default:
-          return Exception('Request Failed with error code ${exception.response?.statusCode}');
+          return CustomException('Request Failed with error code ${exception.response?.statusCode}');
       }
     }
-    return Exception('Uknown Error');
+    return CustomException('Uknown Error');
   }
 }

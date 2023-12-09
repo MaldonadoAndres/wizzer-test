@@ -1,47 +1,65 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wizzer_test/core/widgets/loader_indicator.dart';
-import 'package:wizzer_test/features/home_with_riverpod/providers/get_trending_gifs_provider.dart';
-import 'package:wizzer_test/features/home_with_riverpod/widgets/gif_item.dart';
+import 'package:wizzer_test/features/home_with_riverpod/providers/search_by_name_provider.dart';
+import 'package:wizzer_test/features/home_with_riverpod/views/search_gifs_result_view.dart';
+import 'package:wizzer_test/features/home_with_riverpod/views/trending_gifs_view.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent == scrollController.offset) {
-        // ref.read(getTrendingGifsProvider.notifier).getMoreGifs();
-      }
-    });
-
+    final isSearching = useState(false);
+    final textController = useTextEditingController();
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        ref.read(getTrendingGifsProvider.notifier).getMoreGifs();
-      }),
-      appBar: AppBar(),
       body: SafeArea(
-        child: Center(
-          child: ref.watch(getTrendingGifsProvider).when(
-                data: (data) {
-                  return MasonryGridView.builder(
-                    controller: scrollController,
-                    itemCount: data.length,
-                    gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CupertinoSearchTextField(
+                      controller: textController,
+                      placeholder: 'Search by name',
+                      prefixIcon: const Icon(
+                        Icons.search_rounded,
+                        color: Colors.black,
+                      ),
+                      onTap: () {
+                        isSearching.value = true;
+                      },
+                      onSuffixTap: () {
+                        textController.clear();
+                        isSearching.value = false;
+                      },
+                      onSubmitted: (value) {
+                        ref.read(searchByNameProvider.notifier).searchByName(value);
+                      },
                     ),
-                    itemBuilder: (context, index) {
-                      final gif = data[index];
-                      return GifItem(gif: gif);
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      isSearching.value = false;
+                      textController.clear();
                     },
-                  );
-                },
-                error: (error, stackTrace) => Container(),
-                loading: () => const LoaderIndicator(),
+                    icon: Icon(
+                      Icons.trending_up_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                ],
               ),
+            ),
+            Expanded(
+              child: Center(
+                child: isSearching.value ? const SearchGifsResultView() : const TrendingGifsView(),
+              ),
+            ),
+          ],
         ),
       ),
     );

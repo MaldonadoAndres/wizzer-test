@@ -8,14 +8,14 @@ class LoaderIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       height: 100,
       child: LoadingIndicator(
         indicatorType: Indicator.ballPulse,
-        colors: [Colors.red],
+        colors: [Theme.of(context).primaryColor],
         strokeWidth: 2,
-        backgroundColor: Colors.white,
-        pathBackgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
+        pathBackgroundColor: Colors.transparent,
       ),
     );
   }

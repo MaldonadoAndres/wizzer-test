@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LikeButton extends HookWidget {
-  const LikeButton({super.key});
+  const LikeButton({
+    super.key,
+    required this.onTap,
+    required this.initialLikeState,
+  });
+  final Function(bool) onTap;
+  final bool initialLikeState;
 
   @override
   Widget build(BuildContext context) {
-    final isLiked = useState(false);
+    final isLiked = useState(initialLikeState);
     return InkWell(
       onTap: () {
         isLiked.value = !isLiked.value;
+        onTap(isLiked.value);
       },
       child: Container(
         padding: const EdgeInsets.all(5),
