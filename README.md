@@ -1,16 +1,18 @@
-# wizzer_test
+# Wizer Test
 
-A new Flutter project.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+## Overview
+
+The application load dynamically gifs using Giphy API
+The application is implemented twice as seen on the first page show when the app starts one using BLoC and the other using Riverpod for state management.
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installing
+- Run `flutter pub get` in the terminal  to get all the project dependencies
+- Run `dart run build_runner build --delete-conflicting-outputs` in the terminal to generate all the code used on the background for things like JSON serialization and de-serialization or the creation of the states for the cubit
