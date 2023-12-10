@@ -28,4 +28,9 @@ class TrendingGifsCubit extends Cubit<TrendingGifsState> {
       emit(_Error(msg));
     }
   }
+
+  void likeGif(bool isLiked, int index) {
+    _trendingGifs[index].original.isLiked = isLiked;
+    emit(_Success([..._trendingGifs]));
+  }
 }
