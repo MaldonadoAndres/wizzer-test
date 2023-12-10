@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wizzer_test/core/utils/custom_exceptions.dart';
 import 'package:wizzer_test/core/widgets/loader_indicator.dart';
 import 'package:wizzer_test/features/home_with_riverpod/providers/get_trending_gifs_provider.dart';
@@ -39,8 +40,10 @@ class TrendingGifsView extends HookConsumerWidget {
             );
           },
           error: (error, stackTrace) {
+            isLoadingMore.value = false;
+            Logger().e('', error: error, stackTrace: stackTrace);
             final exception = error as CustomException;
-            exception;
+
             return Text(exception.message);
           },
           loading: () => const LoaderIndicator(),

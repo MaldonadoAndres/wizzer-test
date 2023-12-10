@@ -5,10 +5,11 @@ part 'image_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ImageModel extends ImageEntity {
-  ImageModel(String height, String url)
+  ImageModel(String? height, String? url, bool? isLiked)
       : super(
-          height: double.tryParse(height) ?? 0,
-          url: url,
+          height: double.tryParse(height ?? '0') ?? 0,
+          url: url ?? '',
+          isLiked: isLiked ?? false,
         );
   factory ImageModel.fromJson(Map<String, dynamic> json) => _$ImageModelFromJson(json);
   Map<String, dynamic> toJson() => _$ImageModelToJson(this);
