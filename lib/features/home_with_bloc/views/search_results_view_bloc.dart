@@ -32,13 +32,15 @@ class SearchResultsViewBloc extends HookConsumerWidget {
           success: (gifs) {
             isLoadingMore = false;
             return Center(
-              child: GifsGrid(
-                gifs: gifs,
-                scrollController: scrollController,
-                onLikeButtonTap: (isLiked, index) {
-                  context.read<SearchByNameCubit>().likeGif(isLiked, index);
-                },
-              ),
+              child: gifs.isNotEmpty
+                  ? GifsGrid(
+                      gifs: gifs,
+                      scrollController: scrollController,
+                      onLikeButtonTap: (isLiked, index) {
+                        context.read<SearchByNameCubit>().likeGif(isLiked, index);
+                      },
+                    )
+                  : const Text('No results'),
             );
           },
         );
