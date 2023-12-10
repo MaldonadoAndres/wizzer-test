@@ -34,7 +34,7 @@ class TrendingGifsBlocView extends HookWidget {
               child: GifsGrid(
                 gifs: gifs,
                 scrollController: scrollController,
-                onLikeButtonTap: (isLiked, index) {},
+                onLikeButtonTap: (isLiked, index) => context.read<TrendingGifsCubit>().likeGif(isLiked, index),
               ),
             );
           },
